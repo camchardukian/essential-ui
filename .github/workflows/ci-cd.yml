@@ -15,6 +15,10 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
       - name: Install dependencies
-        run: yarn install
+        run: |
+          cd essential-ui
+          yarn install
       - name: Run Tests
-        run: yarn test
+        run: |
+          cd essential-ui
+          yarn test
