@@ -5,7 +5,7 @@ export default function About() {
     <div>
       <h1>About</h1>
       <div>
-        Here's an example of a{" "}
+        Here&apos;s an example of a{" "}
         <Link to="/page-does-not-exist">broken link</Link>
       </div>
     </div>

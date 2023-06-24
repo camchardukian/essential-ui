@@ -19,7 +19,8 @@ export function Header(props: HeaderProps): React.ReactElement {
   const { leftSlot, rightSlot } = props;
   return (
     <StyledHeader>
-      {leftSlot} {rightSlot}
+      {leftSlot}
+      {rightSlot}
     </StyledHeader>
   );
 }
