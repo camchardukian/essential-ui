@@ -5,6 +5,7 @@ export default function ShowcaseLayout() {
     <div style={{ border: "1px solid green" }}>
       <nav>
         <NavLink to="data-entry/input">Input</NavLink>
+        <NavLink to="navigation/hamburger-menu">Hamburger Menu</NavLink>
       </nav>
       <Outlet />
     </div>
