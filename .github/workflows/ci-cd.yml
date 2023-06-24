@@ -18,6 +18,14 @@ jobs:
         run: |
           cd essential-ui
           yarn install
+      - name: Build
+        run: |
+          cd essential-ui
+          yarn build
+      - name: Lint
+        run: |
+          cd essential-ui
+          yarn lint
       - name: Run Tests
         run: |
           cd essential-ui
