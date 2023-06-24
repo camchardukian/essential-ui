@@ -1,13 +1,13 @@
-import { Input } from "../../../components/input/main/view";
+import { Input } from "../../../components/data-entry/input/main/view";
 
 function InputShowcase() {
-    return (
+  return (
     <div>
-        <h2>I am the input showcase</h2>
-        <p>See an example of the input below</p>
-        <Input />
+      <h2>I am the input showcase</h2>
+      <p>See an example of the input below</p>
+      <Input />
     </div>
-    )
+  );
 }
 
 export default InputShowcase;
