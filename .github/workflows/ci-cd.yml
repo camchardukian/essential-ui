@@ -12,5 +12,5 @@ jobs:
   cicd:
     runs-on: ubuntu-latest
     steps:
-      - name: Say Hello
-        run: echo "Hello World"
+      - name: Run Tests
+        run: npm run test
