@@ -36,4 +36,4 @@ jobs:
         with:
           GITHUB_TOKEN: ${{ secrets.DEPLOY_GITHUB_PAGES }}
           BRANCH: gh-pages
-          FOLDER: essential-ui/dist/assets
+          FOLDER: essential-ui/dist
