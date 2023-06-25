@@ -10,7 +10,8 @@ jobs:
     runs-on: ubuntu-latest
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     steps:
-      - uses: .github/workflows/templates/common-steps.yml
+      - uses: actions/checkout@v2
+      - uses: ../templates/common-steps.yml
         with:
           NAME: ${{ github.workflow }}
       - name: Deploy
