@@ -1,8 +1,8 @@
-type ThrottleFn = (...args: any[]) => void;
+type ThrottleFn<T extends unknown[] = []> = (...args: T) => void;
 
-const useThrottle = <T extends ThrottleFn>(cb: T, delay = 1000) => {
+const useThrottle = <T extends unknown[], U extends ThrottleFn<T>>(cb: U, delay = 1000) => {
   let shouldWait = false;
-  let waitingArgs: Parameters<T> | null = null;
+  let waitingArgs: T | null = null;
 
   const timeoutFunc = () => {
     if (waitingArgs == null) {
@@ -14,7 +14,7 @@ const useThrottle = <T extends ThrottleFn>(cb: T, delay = 1000) => {
     }
   };
 
-  return (...args: Parameters<T>) => {
+  return (...args: T) => {
     if (shouldWait) {
       waitingArgs = args;
       return;
@@ -26,5 +26,6 @@ const useThrottle = <T extends ThrottleFn>(cb: T, delay = 1000) => {
     setTimeout(timeoutFunc, delay);
   };
 };
+
 
 export default useThrottle;
