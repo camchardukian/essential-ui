@@ -2,13 +2,12 @@ name: Deploy
 
 on:
   push:
-    branches:
-      - main
+    branches: [main, fix/deploy-workflow-broken]
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    if: github.event_name == 'push' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/fix/deploy-workflow-broken')
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
@@ -16,10 +15,6 @@ jobs:
         run: |
           cd essential-ui
           yarn install
-      - name: Build
-        run: |
-          cd essential-ui
-          yarn build
       - name: Lint
         run: |
           cd essential-ui
@@ -28,7 +23,15 @@ jobs:
         run: |
           cd essential-ui
           yarn test
+      - name: Set up Git
+        uses: actions/setup-git@v2
+        with:
+          user.email: ${{ github.actor }}@users.noreply.github.com
+          user.name: ${{ github.actor }}
       - name: Deploy
+        env:
+          ACCESS_TOKEN: ${{ secrets.GH_PAGES_DEPLOY_TOKEN }}
         run: |
           cd essential-ui
+          yarn build
           yarn deploy
