@@ -2,12 +2,12 @@ name: Deploy
 
 on:
   push:
-    branches: main
+    branches: [main, fix/gh-pages-app-route]
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    if: github.event_name == 'push' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/fix/deploy-workflow-broken')
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
