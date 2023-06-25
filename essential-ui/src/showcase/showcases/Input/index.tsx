@@ -1,4 +1,4 @@
-import { Input } from "../../../components/data-entry/input/main/view";
+import { Input } from "../../../components/data-entry/Input";
 
 function InputShowcase() {
   return (
