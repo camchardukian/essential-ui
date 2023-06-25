@@ -2,12 +2,12 @@ name: Deploy
 
 on:
   push:
-    branches: [main, fix/deploy-workflow-broken]
+    branches: main
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    if: github.event_name == 'push' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/fix/deploy-workflow-broken')
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
@@ -34,6 +34,6 @@ jobs:
       - name: Deploy
         uses: JamesIves/github-pages-deploy-action@3.7.1
         with:
-          GITHUB_TOKEN: ${{ secrets.DEPLOY_GITHUB_PAGES }}
+          GITHUB_TOKEN: ${{ secrets.GH_PAGES_DEPLOY_TOKEN }}
           BRANCH: gh-pages
           FOLDER: essential-ui/dist
