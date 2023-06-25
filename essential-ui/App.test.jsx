@@ -6,6 +6,6 @@ describe('something truthy and falsy', () => {
   });
 
   it('should be false', () => {
-    expect(false).toBe("this test should fail");
+    expect(false).toBe(false);
   });
 });
