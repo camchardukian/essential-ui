@@ -2,15 +2,20 @@ name: Deploy
 
 on:
   push:
-    branches: [main, fix/gh-pages-app-route]
+    branches: [main]
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    if: github.event_name == 'push' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/fix/gh-pages-app-route')
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
+      - name: Clean up before building
+        run: |
+          cd essential-ui
+          rm -rf node_modules
+          rm -rf dist
       - name: Install dependencies
         run: |
           cd essential-ui
