@@ -7,19 +7,21 @@ import HamburgerMenuShowcase from "./showcase/showcases/HamburgerMenu";
 import InputShowcase from "./showcase/showcases/Input";
 
 import { Route } from "react-router-dom";
-
+import { BASE_ROUTE } from "./utils/constants";
 export const Routes = (
-  <Route path="/" Component={RootLayout}>
-    <Route index Component={Home} />
-    <Route path="components" Component={ShowcaseLayout}>
-      <Route path="data-entry">
-        <Route path="input" Component={InputShowcase} />
+  <Route>
+    <Route path={`${BASE_ROUTE}`} Component={RootLayout}>
+      <Route index Component={Home} />
+      <Route path="components" Component={ShowcaseLayout}>
+        <Route path="data-entry">
+          <Route path="input" Component={InputShowcase} />
+        </Route>
+        <Route path="navigation">
+          <Route path="hamburger-menu" Component={HamburgerMenuShowcase} />
+        </Route>
       </Route>
-      <Route path="navigation">
-        <Route path="hamburger-menu" Component={HamburgerMenuShowcase} />
-      </Route>
+      <Route path="about" Component={About} />
     </Route>
-    <Route path="about" Component={About} />
-    <Route path="*" Component={NotFoundPage}></Route>
+    <Route path="*" Component={NotFoundPage} />
   </Route>
 );

@@ -2,7 +2,7 @@ name: Deploy
 
 on:
   push:
-    branches: main
+    branches: [main]
 
 jobs:
   deploy:
@@ -11,6 +11,11 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
+      - name: Clean up before building
+        run: |
+          cd essential-ui
+          rm -rf node_modules
+          rm -rf dist
       - name: Install dependencies
         run: |
           cd essential-ui
