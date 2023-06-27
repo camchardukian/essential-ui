@@ -1,6 +1,5 @@
 import React from "react";
 import { HamburgerMenu } from "../../../components/navigation/HamburgerMenu";
-import { Link } from "react-router-dom";
 import { BASE_ROUTE } from "../../../utils/constants";
 function HamburgerMenuShowcase() {
   const [isOpen, setIsOpen] = React.useState(false);
@@ -17,11 +16,6 @@ function HamburgerMenuShowcase() {
           { label: "Components", to: `${BASE_ROUTE}/components` },
           { label: "About", to: `${BASE_ROUTE}/about` },
         ]}
-        renderItem={({ label, to }) => (
-          <Link to={to} onClick={() => setIsOpen(false)}>
-            {label}
-          </Link>
-        )}
       />
     </div>
   );

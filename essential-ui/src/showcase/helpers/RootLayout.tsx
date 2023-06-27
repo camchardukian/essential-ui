@@ -1,5 +1,5 @@
 import React from "react";
-import { Outlet, NavLink, Link } from "react-router-dom";
+import { Outlet, NavLink } from "react-router-dom";
 import { Header } from "../../components/header";
 import { HamburgerMenu } from "../../components/navigation/HamburgerMenu";
 import { useViewportSize } from "../../hooks/useViewportSize";
@@ -14,14 +14,9 @@ export default function RootLayout() {
       onToggle={() => setIsOpen(!isOpen)}
       menuItems={[
         { label: "Home", to: `${BASE_ROUTE}` },
-        { label: "Components", to: "/components" },
-        { label: "About", to: "/about" },
+        { label: "Components", to: "components" },
+        { label: "About", to: "about" },
       ]}
-      renderItem={({ label, to }) => (
-        <Link to={to} onClick={() => setIsOpen(false)}>
-          {label}
-        </Link>
-      )}
     />
   );
   return (
