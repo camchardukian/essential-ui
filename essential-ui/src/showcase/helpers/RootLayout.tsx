@@ -1,5 +1,5 @@
 import React from "react";
-import { Outlet, NavLink, Link } from "react-router-dom";
+import { Outlet, NavLink } from "react-router-dom";
 import { Header } from "../../components/header";
 import { HamburgerMenu } from "../../components/navigation/HamburgerMenu";
 import { useViewportSize } from "../../hooks/useViewportSize";
