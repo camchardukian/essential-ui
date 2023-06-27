@@ -14,14 +14,9 @@ export default function RootLayout() {
       onToggle={() => setIsOpen(!isOpen)}
       menuItems={[
         { label: "Home", to: `${BASE_ROUTE}` },
-        { label: "Components", to: "/components" },
-        { label: "About", to: "/about" },
+        { label: "Components", to: "components" },
+        { label: "About", to: "about" },
       ]}
-      renderItem={({ label, to }) => (
-        <Link to={to} onClick={() => setIsOpen(false)}>
-          {label}
-        </Link>
-      )}
     />
   );
   return (

@@ -1,9 +1,9 @@
 import styled, { css } from "styled-components";
 import { createPortal } from "react-dom";
+import { Link } from "react-router-dom";
 
 const StyledHamburgerMenu = styled.nav(
   () => css`
-    border: 1px solid orange;
     position: relative;
   `
 );
@@ -11,10 +11,10 @@ const StyledHamburgerMenu = styled.nav(
 const StyledMenuItemsContainer = styled.ul(
   () =>
     css`
-      border: 1px solid orange;
-      margin: 0;
-      padding: 0;
+      margin-top: 32px;
+      padding-left: 0;
       width: 100%;
+      background-color: white;
     `
 );
 
@@ -23,14 +23,25 @@ const StyledMenuItem = styled.li(
     css`
       display: block;
       width: 100%;
+      border: 1px solid black;
     `
 );
 
-const StyledMenuItemButton = styled.button(
+const StyledMenuLink = styled(Link)(
   () =>
     css`
       width: 100%;
+      display: inline-block;
       padding: 16px 0px;
+      text-decoration: none;
+      text-align: center;
+    `
+);
+
+const StyledCloseButton = styled.button(
+  () =>
+    css`
+      float: right;
     `
 );
 
@@ -39,7 +50,16 @@ const StyledMenuModal = styled.div(
     css`
       position: fixed;
       top: 0;
+      left: -100%;
       width: 100%;
+      height: 100%;
+      background-color: white;
+      transition: left 1s ease-in-out;
+
+      &.open {
+        left: 0;
+        background-color: rgba(0, 0, 0, 0.6);
+      }
     `
 );
 
@@ -65,12 +85,11 @@ export function HamburgerMenu(props: HamburgerMenuProps): React.ReactElement {
     children ||
     createPortal(
       isOpen && (
-        <StyledMenuModal>
-          {/* @TODO -- Fix the basic styling of the hamburger menu's position/margin, etc. */}
+        <StyledMenuModal className={isOpen ? "open" : ""}>
           {/* @TODO #2 -- Implement close when clicking outside of the portal */}
           {/* @TODO #3 -- Check over functionality for onClick and if we should modify TS to require either the 'onClick' or 'to' props, but not both. */}
           <div>
-            <button onClick={onToggle}>CLOSE</button>
+            <StyledCloseButton onClick={onToggle}>CLOSE</StyledCloseButton>
           </div>
           <StyledMenuItemsContainer>
             {menuItems!.map((item, index) => {
@@ -79,9 +98,12 @@ export function HamburgerMenu(props: HamburgerMenuProps): React.ReactElement {
               }
               return (
                 <StyledMenuItem key={`menu-item-${index}`}>
-                  <StyledMenuItemButton onClick={item.onClick}>
+                  <StyledMenuLink
+                    to={item.to}
+                    onClick={item.onClick || onToggle}
+                  >
                     {item.label}
-                  </StyledMenuItemButton>
+                  </StyledMenuLink>
                 </StyledMenuItem>
               );
             })}
