@@ -85,6 +85,13 @@ export function HamburgerMenu(props: HamburgerMenuProps): React.ReactElement {
     event.stopPropagation();
     onToggle();
   };
+
+  const handleEsc = (event: KeyboardEvent) => {
+    if (event.key === "Escape") {
+      onToggle();
+    }
+  };
+
   const menuRef = useRef<HTMLUListElement>(null);
 
   const handleOutsideClick = useCallback(
@@ -101,10 +108,12 @@ export function HamburgerMenu(props: HamburgerMenuProps): React.ReactElement {
   useEffect(() => {
     if (isOpen) {
       document.addEventListener("click", handleOutsideClick);
+      document.addEventListener("keydown", handleEsc);
     }
 
     return () => {
       document.removeEventListener("click", handleOutsideClick);
+      document.removeEventListener("keydown", handleEsc);
     };
   }, [handleOutsideClick, onToggle, isOpen]);
 
