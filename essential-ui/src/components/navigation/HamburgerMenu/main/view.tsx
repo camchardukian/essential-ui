@@ -1,6 +1,7 @@
 import styled, { css } from "styled-components";
 import { createPortal } from "react-dom";
 import { Link } from "react-router-dom";
+import { useRef, useEffect, useCallback } from "react";
 
 const StyledHamburgerMenu = styled.nav(
   () => css`
@@ -80,18 +81,42 @@ type HamburgerMenuProps = {
 
 export function HamburgerMenu(props: HamburgerMenuProps): React.ReactElement {
   const { children, menuItems, isOpen, onToggle, renderItem } = props;
+  const handleToggle = (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.stopPropagation();
+    onToggle();
+  };
+  const menuRef = useRef<HTMLUListElement>(null);
+
+  const handleOutsideClick = useCallback(
+    (event: MouseEvent) => {
+      const target = event.target as Node;
+
+      if (menuRef.current && !menuRef.current.contains(target)) {
+        onToggle();
+      }
+    },
+    [onToggle]
+  );
+
+  useEffect(() => {
+    if (isOpen) {
+      document.addEventListener("click", handleOutsideClick);
+    }
+
+    return () => {
+      document.removeEventListener("click", handleOutsideClick);
+    };
+  }, [handleOutsideClick, onToggle, isOpen]);
 
   const menuContent =
     children ||
     createPortal(
       isOpen && (
         <StyledMenuModal className={isOpen ? "open" : ""}>
-          {/* @TODO #2 -- Implement close when clicking outside of the portal */}
-          {/* @TODO #3 -- Check over functionality for onClick and if we should modify TS to require either the 'onClick' or 'to' props, but not both. */}
           <div>
-            <StyledCloseButton onClick={onToggle}>CLOSE</StyledCloseButton>
+            <StyledCloseButton onClick={handleToggle}>CLOSE</StyledCloseButton>
           </div>
-          <StyledMenuItemsContainer>
+          <StyledMenuItemsContainer ref={menuRef}>
             {menuItems!.map((item, index) => {
               if (renderItem) {
                 return renderItem(item);
@@ -115,7 +140,7 @@ export function HamburgerMenu(props: HamburgerMenuProps): React.ReactElement {
 
   return (
     <StyledHamburgerMenu>
-      <button onClick={onToggle}>☰</button>
+      <button onClick={handleToggle}>☰</button>
       {isOpen && menuContent}
     </StyledHamburgerMenu>
   );

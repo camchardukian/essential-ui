@@ -7,15 +7,17 @@ import { BASE_ROUTE } from "../../utils/constants";
 export default function RootLayout() {
   const isSmallViewport = useViewportSize().size === "small";
   const [isOpen, setIsOpen] = React.useState(false);
-
+  const handleToggleIsOpen = () => {
+    setIsOpen(!isOpen);
+  };
   const HamburgerMenuUsingMenuItems = (
     <HamburgerMenu
       isOpen={isOpen}
-      onToggle={() => setIsOpen(!isOpen)}
+      onToggle={handleToggleIsOpen}
       menuItems={[
         { label: "Home", to: `${BASE_ROUTE}` },
-        { label: "Components", to: "components" },
-        { label: "About", to: "about" },
+        { label: "Components", to: `${BASE_ROUTE}/components` },
+        { label: "About", to: `${BASE_ROUTE}/about` },
       ]}
     />
   );
