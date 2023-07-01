@@ -105,6 +105,35 @@ export function HamburgerMenu(props: HamburgerMenuProps): React.ReactElement {
     [onToggle]
   );
 
+  const handleKeyDown = <T extends HTMLElement>(
+    event: React.KeyboardEvent<T>,
+    index: number
+  ) => {
+    if (event.key === "ArrowDown" || event.key === "ArrowUp") {
+      event.preventDefault();
+      let newIndex = event.key === "ArrowDown" ? index + 1 : index - 1;
+      const menuItemsCount = menuItems!.length;
+      newIndex =
+        newIndex >= menuItemsCount
+          ? 0
+          : newIndex === -1
+          ? menuItemsCount - 1
+          : newIndex;
+      document
+        .getElementById(`hamburger-menu-item-content-${newIndex}`)!
+        .focus();
+    } else if (event.key === "Enter") {
+      event.preventDefault();
+      const currentItem = menuItems![index];
+      console.log("currentItem", currentItem);
+      if (currentItem.to) {
+        window.location.href = currentItem.to;
+      } else {
+        currentItem.onClick ? currentItem.onClick() : onToggle();
+      }
+    }
+  };
+
   useEffect(() => {
     if (isOpen) {
       document.addEventListener("click", handleOutsideClick);
@@ -121,10 +150,20 @@ export function HamburgerMenu(props: HamburgerMenuProps): React.ReactElement {
     children ||
     createPortal(
       isOpen && (
-        <StyledMenuModal className={isOpen ? "open" : ""}>
-          <div>
-            <StyledCloseButton onClick={handleToggle}>CLOSE</StyledCloseButton>
-          </div>
+        <StyledMenuModal
+          className={isOpen ? "open" : ""}
+          id="hamburger-menu-modal"
+          aria-hidden={!isOpen}
+          aria-modal="true"
+        >
+          <StyledCloseButton
+            onClick={handleToggle}
+            aria-controls="hamburger-menu-modal"
+            aria-label="Close Menu"
+            aria-expanded={isOpen}
+          >
+            CLOSE
+          </StyledCloseButton>
           <StyledMenuItemsContainer ref={menuRef}>
             {menuItems!.map((item, index) => {
               if (renderItem) {
@@ -133,8 +172,11 @@ export function HamburgerMenu(props: HamburgerMenuProps): React.ReactElement {
               return (
                 <StyledMenuItem key={`menu-item-${index}`}>
                   <StyledMenuLink
+                    id={`hamburger-menu-item-content-${index}`}
                     to={item.to}
                     onClick={item.onClick || onToggle}
+                    onKeyDown={(event) => handleKeyDown(event, index)}
+                    tabIndex={isOpen ? 0 : -1}
                   >
                     {item.label}
                   </StyledMenuLink>
@@ -149,7 +191,9 @@ export function HamburgerMenu(props: HamburgerMenuProps): React.ReactElement {
 
   return (
     <StyledHamburgerMenu>
-      <button onClick={handleToggle}>☰</button>
+      <button onClick={handleToggle} aria-label="hamburger menu toggle">
+        ☰
+      </button>
       {isOpen && menuContent}
     </StyledHamburgerMenu>
   );
