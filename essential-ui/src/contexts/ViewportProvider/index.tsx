@@ -7,7 +7,7 @@ interface ViewportProviderProps {
 }
 
 function ViewportProvider({ children }: ViewportProviderProps) {
-  const [size, setSize] = useState<ViewportSize>("medium");
+  const [size, setSize] = useState<ViewportSize | null>(null);
   const breakPoints = {
     small: 576,
     medium: 768,
@@ -29,6 +29,8 @@ function ViewportProvider({ children }: ViewportProviderProps) {
   const throttledHandleWindowResize = useThrottle(handleWindowResize, 500);
 
   useEffect(() => {
+    handleWindowResize(); // Calculates initial viewport size
+
     window.addEventListener("resize", throttledHandleWindowResize);
 
     return () =>
