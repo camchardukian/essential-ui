@@ -4,12 +4,11 @@ import { createContext, useContext } from 'react';
 export type ViewportSize = 'small' | 'medium' | 'large';
 
 interface ViewportContextValue {
-  size: ViewportSize;
+  size: ViewportSize | null;
 }
 
-// @TODO -- Maybe update this so that we calculate the initial value rather than itializing to medium
 const ViewportContext = createContext<ViewportContextValue>({
-  size: 'medium',
+  size: null,
 });
 
 export function useViewportSize(): ViewportContextValue {
